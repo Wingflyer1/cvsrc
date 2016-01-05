@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head_title %} Terje   {% endblock %}
+
+<style>
+{% block style %}
+.navbar-static-top {
+	margin-bottom: 0px !important;
+}
+
+{% include 'tables.css' %}
+
+{% endblock %}
+</style>
+
+{% block content %}
+ {% if not request.user.is_authenticated %}
+<h1> {{ message }}</h1>
+
+	{% else %}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h1> {{ title }}</h1>
+
+        <table style="width:100%;">
+            <tr style="color:Blue;" class="color1">
+                <td>Nr.</td>
+                <td>Sertifikatnavn</td>
+                <td>Gyldig til</td>
+
+            </tr>
+            {% for instanse in queryset %}
+            <tr class="{% cycle 'color2' 'color1' %}">
+                <td>{{ forloop.revcounter }}</td>
+                <td>{{ instanse.certificate }}</td>             
+                <td> {% if instanse.is_expired %} Utgått {% else %} {{ instanse.valid_to.year }} {% endif %} </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{{ block.super }}
+{% endif %}
+
+{% endblock %}
+
+
+
+
+

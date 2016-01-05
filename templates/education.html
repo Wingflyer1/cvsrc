@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+{% block head_title %}Velkommen | {{ block.super }}{% endblock %}
+
+<style>
+{% block style %}
+.navbar-static-top {
+	margin-bottom: 0px !important;
+	min-height:100px !important;
+}
+
+{% include 'tables.css' %}
+
+{% endblock %}
+</style>
+
+
+{% block content %}
+ {% if not request.user.is_authenticated %}
+<h1> {{ message }}</h1>
+
+	{% else %}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h1> {{ title }}</h1>
+
+        <table style="width:100%;">
+            <tr style="color:Blue;" class="color1">
+                <td>Nr.</td>
+                <td>Skole</td>
+                <td>Kurs/Fag</td>
+                <td>Periode</td>
+            </tr>
+            {% for instanse in queryset %}
+            <tr class="{% cycle 'color2' 'color1' %}">
+                <td>{{ forloop.revcounter }}</td>
+                <td>{{ instanse.school }}</td>
+                <td>{{ instanse.course }}</td>
+                <td class="period">  {{ instanse.year_from.year }} -
+                {{ instanse.year_to.year }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{{ block.super }}
+{% endif %}
+
+{% endblock %}
+
+
+
+
+
